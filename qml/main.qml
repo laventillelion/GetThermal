@@ -6,7 +6,7 @@ ApplicationWindow {
     visible: true
     width: 960
     height: 540
-    title: qsTr("GetThermal")
+    title: qsTr("Qu3 HT Infrared Camera (powered by Flir/GetThermal)")
 
     Viewer {
         anchors.fill: parent

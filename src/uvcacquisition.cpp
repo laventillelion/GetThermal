@@ -21,6 +21,7 @@ UvcAcquisition::UvcAcquisition(QObject *parent)
     , dev(NULL)
     , devh(NULL)
     , m_cci(NULL)
+    , m_lineBuffer(1)
 {
     _ids.append({ PT1_VID, PT1_PID });
     _ids.append({ FLIR_VID, 0x0000 }); // any flir camera
@@ -276,8 +277,23 @@ void UvcAcquisition::cb(uvc_frame_t *frame, void *ptr) {
     }
 }
 
-void UvcAcquisition::emitFrameReady(const QVideoFrame &frame)
+void UvcAcquisition::emitFrameReady(QVideoFrame &frame)
 {
+    int stride = frame.bytesPerLine();
+    m_lineBuffer.resize(stride);
+    frame.map(QAbstractVideoBuffer::WriteOnly);
+    for (int i = 0, j = (frame.height() - 1);
+         i < j;
+         i++, j--)
+    {
+	uchar* line_i = &frame.bits()[stride * i];
+	uchar* line_j = &frame.bits()[stride * j];
+	memcpy(line_j, m_lineBuffer.data(), stride);
+	memcpy(line_i, line_j, stride);
+	memcpy(m_lineBuffer.data(), line_i, stride);
+    }
+    frame.unmap();
+
     emit frameReady(frame);
 }
 
