@@ -4,7 +4,6 @@
 #include <QList>
 #include <QObject>
 #include <QVideoFrame>
-#include <QVector>
 #include <QVideoSurfaceFormat>
 
 #include <libuvc/libuvc.h>
@@ -60,7 +59,6 @@ protected:
     QVideoSurfaceFormat m_uvc_format;
     AbstractCCInterface *m_cci;
     DataFormatter m_df;
-    QVector<char> m_lineBuffer;
 
 private:
     static void cb(uvc_frame_t *frame, void *ptr);
