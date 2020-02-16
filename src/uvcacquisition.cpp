@@ -278,25 +278,7 @@ void UvcAcquisition::cb(uvc_frame_t *frame, void *ptr) {
 
 void UvcAcquisition::emitFrameReady(QVideoFrame &frame)
 {
-    frame.map(QAbstractVideoBuffer::ReadOnly);
-    QVideoFrame flipped(frame.mappedBytes(), frame.size(),
-                        frame.bytesPerLine(),
-			frame.pixelFormat());
-    flipped.map(QAbstractVideoBuffer::WriteOnly);
-    int stride = frame.bytesPerLine();
-    frame.map(QAbstractVideoBuffer::WriteOnly);
-    for (int i = 0, j = (frame.height() - 1);
-         i < frame.height();
-         i++, j--)
-    {
-	uchar* line_i = &flipped.bits()[stride * i];
-	uchar* line_j = &frame.bits()[stride * j];
-	memcpy(line_i, line_j, stride);
-    }
-    flipped.unmap();
-    frame.unmap();
-
-    emit frameReady(flipped);
+    emit frameReady(frame);
 }
 
 void UvcAcquisition::pauseStream() {

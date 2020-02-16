@@ -47,6 +47,7 @@ Item {
                 id: videoOutput
                 anchors.fill: parent
                 fillMode: VideoOutput.PreserveAspectFit
+                orientation: 180
                 source: player
                 VideoRoi {
                     id: radRoi
