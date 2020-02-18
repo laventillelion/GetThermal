@@ -12,7 +12,7 @@ Item {
     property size videoSize: acq ? acq.videoSize : Qt.size(80, 60)
 
     function moveUnscaledRoiTo(dispX, dispY) {
-        var nx = Math.floor(dispX * (videoSize.width / scaledvid.width))
+        var nx = Math.floor((scaledvid.width - dispX - 1) * (videoSize.width / scaledvid.width))
         var ny = Math.floor(dispY * (videoSize.height / scaledvid.height))
         if (roi.x === nx && roi.y === ny) {
             return
@@ -38,7 +38,7 @@ Item {
         Rectangle {
             id: roidisp
 
-            x: roi.x * (scaledvid.width / videoSize.width)
+            x: (videoSize.width - roi.x - 1) * (scaledvid.width / videoSize.width)
             y: roi.y * (scaledvid.height / videoSize.height)
             width: roi.width * (scaledvid.width / videoSize.width)
             height: roi.height * (scaledvid.height / videoSize.height)
