@@ -12,6 +12,9 @@ Item {
     property size videoSize: acq ? acq.videoSize : Qt.size(80, 60)
 
     function moveUnscaledRoiTo(dispX, dispY) {
+        console.log("x:", dispX, " y:", dispY);
+        console.log("width:", videoSize.width, " height:", videoSize.height);
+        console.log("scaledwidth:", scaledvid.width, " scaledheight:", scaledvid.height);
         var nx = Math.floor((scaledvid.width - dispX - 1) * (videoSize.width / scaledvid.width))
         var ny = Math.floor(dispY * (videoSize.height / scaledvid.height))
         if (roi.x === nx && roi.y === ny) {
