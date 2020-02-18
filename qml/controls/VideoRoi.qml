@@ -15,12 +15,13 @@ Item {
         console.log("x:", dispX, " y:", dispY);
         console.log("width:", videoSize.width, " height:", videoSize.height);
         console.log("scaledwidth:", scaledvid.width, " scaledheight:", scaledvid.height);
-        var nx = Math.floor((scaledvid.width - dispX - 1) * (videoSize.width / scaledvid.width))
+        var nx = Math.floor(dispX * (videoSize.width / scaledvid.width))
         var ny = Math.floor(dispY * (videoSize.height / scaledvid.height))
         if (roi.x === nx && roi.y === ny) {
             return
         }
         acq.cci.radSpotmeterRoi = Qt.rect(nx, ny, roi.width, roi.height)
+        console.log("roix:", roi.x, " roiy:", roi.y);
     }
 
     Item {
@@ -41,7 +42,7 @@ Item {
         Rectangle {
             id: roidisp
 
-            x: (videoSize.width - roi.x - 1) * (scaledvid.width / videoSize.width)
+            x: roi.x * (scaledvid.width / videoSize.width)
             y: roi.y * (scaledvid.height / videoSize.height)
             width: roi.width * (scaledvid.width / videoSize.width)
             height: roi.height * (scaledvid.height / videoSize.height)
