@@ -12,16 +12,14 @@ Item {
     property size videoSize: acq ? acq.videoSize : Qt.size(80, 60)
 
     function moveUnscaledRoiTo(dispX, dispY) {
-        console.log("x:", dispX, " y:", dispY);
-        console.log("width:", videoSize.width, " height:", videoSize.height);
-        console.log("scaledwidth:", scaledvid.width, " scaledheight:", scaledvid.height);
         var nx = Math.floor(dispX * (videoSize.width / scaledvid.width))
         var ny = Math.floor(dispY * (videoSize.height / scaledvid.height))
+        nx = videoSize.width - nx - 1
+        ny = videoSize.height - ny - 1
         if (roi.x === nx && roi.y === ny) {
             return
         }
         acq.cci.radSpotmeterRoi = Qt.rect(nx, ny, roi.width, roi.height)
-        console.log("roix:", roi.x, " roiy:", roi.y);
     }
 
     Item {
@@ -42,8 +40,8 @@ Item {
         Rectangle {
             id: roidisp
 
-            x: roi.x * (scaledvid.width / videoSize.width)
-            y: roi.y * (scaledvid.height / videoSize.height)
+            x: (videoSize.width - roi.x - 1) * (scaledvid.width / videoSize.width)
+            y: (videoSize.height - roi.y - 1) * (scaledvid.height / videoSize.height)
             width: roi.width * (scaledvid.width / videoSize.width)
             height: roi.height * (scaledvid.height / videoSize.height)
 
